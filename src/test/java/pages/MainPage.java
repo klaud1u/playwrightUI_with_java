@@ -33,5 +33,6 @@ public class MainPage extends BasePage {
     public Locator jqueryUiMenusLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("JQuery UI Menus").setExact(true));
     public Locator keyPressesLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Key Presses").setExact(true));
     public Locator javaScriptAlertsLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("JavaScript Alerts").setExact(true));
+    public Locator largeAndDeepDOMLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Large & Deep DOM").setExact(true));
 
 }

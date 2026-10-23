@@ -34,11 +34,12 @@ public class BaseTest {
     protected JqueryUIMenusPage jQueryUIMenusPage;
     protected JavaScriptAlertsPage javaScriptAlertsPage;
     protected KeyPressesPage keyPressesPage;
+    protected LargeAndDeepDOMPage largeAndDeepDOMPage;
 
     @BeforeEach
     void setup(){
         playwright= Playwright.create();
-        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
         page=context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
@@ -68,6 +69,7 @@ public class BaseTest {
         jQueryUIMenusPage = new JqueryUIMenusPage(page);
         javaScriptAlertsPage = new JavaScriptAlertsPage(page);
         keyPressesPage = new KeyPressesPage(page);
+        largeAndDeepDOMPage = new LargeAndDeepDOMPage(page);
     }
 
     @AfterEach
