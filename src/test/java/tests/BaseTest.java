@@ -38,7 +38,7 @@ public class BaseTest {
     @BeforeEach
     void setup(){
         playwright= Playwright.create();
-        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
         context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
         page=context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
