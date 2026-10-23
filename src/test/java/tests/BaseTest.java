@@ -7,6 +7,7 @@ import pages.*;
 
 public class BaseTest {
     protected Playwright playwright;
+    protected Browser browser;
     protected BrowserContext context;
     protected Page page;
     protected MainPage mainPage;
@@ -39,7 +40,7 @@ public class BaseTest {
     @BeforeEach
     void setup(){
         playwright= Playwright.create();
-        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
         page=context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
@@ -73,9 +74,9 @@ public class BaseTest {
     }
 
     @AfterEach
-    void teardown() throws InterruptedException {
-        Thread.sleep(2000);
-        context.close();
-
+    void teardown() {
+        if (context != null) context.close();
+        if (browser != null) browser.close();
+        if (playwright != null) playwright.close();
     }
 }
