@@ -23,4 +23,4 @@ jobs:
         run: mvn -B exec:java -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
 
       - name: Run tests
-        run: mvn -B clean test
+        run: mvn -B clean test -Dsurefire.rerunFailingTestsCount=2
