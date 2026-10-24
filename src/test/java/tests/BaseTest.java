@@ -36,6 +36,7 @@ public class BaseTest {
     protected JavaScriptAlertsPage javaScriptAlertsPage;
     protected KeyPressesPage keyPressesPage;
     protected LargeAndDeepDOMPage largeAndDeepDOMPage;
+    protected LargeFormPage largeFormPage;
 
     @BeforeEach
     void setup(){
@@ -71,6 +72,7 @@ public class BaseTest {
         javaScriptAlertsPage = new JavaScriptAlertsPage(page);
         keyPressesPage = new KeyPressesPage(page);
         largeAndDeepDOMPage = new LargeAndDeepDOMPage(page);
+        largeFormPage = new LargeFormPage(page);
     }
 
     @AfterEach
