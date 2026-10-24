@@ -77,7 +77,7 @@ public class LargeFormTest extends BaseTest {
         assertThat(largeFormPage.submittedContact).hasText("phone");
         assertThat(largeFormPage.submittedExperience).hasText(String.valueOf(LargeFormTestData.EXPERIENCE));
         assertThat(largeFormPage.submittedColor).hasText(LargeFormTestData.COLOR);
-        assertThat(largeFormPage.submittedFormId).hasText("large-form");
+        assertThat(largeFormPage.submittedFormId).hasText("larges-form");
         assertThat(largeFormPage.submittedInterests).hasText("testing, automation, devops");
         assertThat(largeFormPage.submittedTerms).hasText("accepted");
 

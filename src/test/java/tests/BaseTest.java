@@ -5,6 +5,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pages.*;
 
+import java.nio.file.Path;
+
+
 public class BaseTest {
     protected Playwright playwright;
     protected Browser browser;
@@ -48,7 +51,14 @@ public class BaseTest {
                 new BrowserType.LaunchOptions().setHeadless(headless)
         );
         //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-        context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
+        context = browser.newContext(
+                new Browser.NewContextOptions()
+                        .setHttpCredentials("admin", "admin")
+                        .setRecordVideoDir(Path.of("target/videos"))
+        );
+        context.tracing().start(new Tracing.StartOptions()
+                .setScreenshots(true)
+                .setSnapshots(true));
         page=context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
 

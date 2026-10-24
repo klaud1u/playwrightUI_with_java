@@ -20,9 +20,36 @@ jobs:
           cache: maven
 
       - name: Install Playwright Chromium
-        run: mvn -B exec:java -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
+        run: mvn -B exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install --with-deps chromium"
 
       - name: Run tests
         env:
           HEADLESS: "true"
         run: mvn -B clean test -Dsurefire.rerunFailingTestsCount=2
+
+      - name: Save Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Save screenshots and traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-evidence
+          path: target/test-artifacts
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Save videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-videos
+          path: target/videos
+          if-no-files-found: ignore
+          retention-days: 7
