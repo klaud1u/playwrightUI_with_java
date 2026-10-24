@@ -25,7 +25,7 @@ public class BaseTest {
     protected MainPage mainPage;
     protected ChallengingDOMPage challengingDOMPage;
     protected ABPage abPage;
-    protected BasicAuthPage  basicAuthPage;
+    protected BasicAuthPage basicAuthPage;
     protected BrokenImagesPage brokenImagesPage;
     protected AddRemovePage addRemovePage;
     protected CheckboxesPage checkboxesPage;
@@ -50,69 +50,48 @@ public class BaseTest {
     protected LargeAndDeepDOMPage largeAndDeepDOMPage;
     protected LargeFormPage largeFormPage;
 
+    private boolean testFailed;
+
     @RegisterExtension
     protected final AfterTestExecutionCallback failureEvidence = testContext -> {
-        if (testContext.getExecutionException().isEmpty()) {
+        testFailed = testContext.getExecutionException().isPresent();
+
+        if (!testFailed) {
             return;
         }
 
-        Path folder = Path.of(
-                "target",
-                "test-artifacts",
-                testContext.getRequiredTestMethod().getName()
-                        + "-" + UUID.randomUUID()
-        );
+        Path folder = Path.of("target", "test-artifacts", testContext.getRequiredTestMethod().getName() + "-" + UUID.randomUUID());
 
         Files.createDirectories(folder);
 
         try {
             if (page != null && !page.isClosed()) {
-                byte[] screenshot = page.screenshot(
-                        new Page.ScreenshotOptions()
-                                .setPath(folder.resolve("screenshot.png"))
-                                .setFullPage(true)
-                );
+                byte[] screenshot = page.screenshot(new Page.ScreenshotOptions().setPath(folder.resolve("screenshot.png")).setFullPage(true));
 
-                Allure.attachment(
-                        "Screenshot at failure",
-                        "image/png",
-                        new ByteArrayInputStream(screenshot),
-                        AttachmentOptions.withFileExtension(".png")
-                );
+                Allure.attachment("Screenshot at failure", "image/png", new ByteArrayInputStream(screenshot), AttachmentOptions.withFileExtension(".png"));
             }
         } catch (Exception error) {
-            System.err.println(
-                    "Could not save screenshot: " + error.getMessage()
-            );
+            System.err.println("Could not save screenshot: " + error.getMessage());
         }
 
         try {
             if (context != null) {
                 Path trace = folder.resolve("trace.zip");
-
-                context.tracing().stop(
-                        new Tracing.StopOptions().setPath(trace)
-                );
-
+                context.tracing().stop(new Tracing.StopOptions().setPath(trace));
                 try (InputStream stream = Files.newInputStream(trace)) {
-                    Allure.attachment(
-                            "Playwright trace",
-                            "application/zip",
-                            stream,
-                            AttachmentOptions.withFileExtension(".zip")
-                    );
+                    Allure.attachment("Playwright trace", "application/zip", stream, AttachmentOptions.withFileExtension(".zip"));
                 }
             }
         } catch (Exception error) {
-            System.err.println(
-                    "Could not save trace: " + error.getMessage()
-            );
+            System.err.println("Could not save trace: " + error.getMessage());
         }
     };
 
     @BeforeEach
-    void setup(){
-        playwright= Playwright.create();
+    void setup() {
+        testFailed = false;
+
+        playwright = Playwright.create();
         boolean headless = Boolean.parseBoolean(
                 System.getenv().getOrDefault("HEADLESS", "true")
         );
@@ -128,14 +107,15 @@ public class BaseTest {
         context.tracing().start(new Tracing.StartOptions()
                 .setScreenshots(true)
                 .setSnapshots(true));
-        page=context.newPage();
+
+        page = context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
 
-        mainPage  = new MainPage(page);
+        mainPage = new MainPage(page);
         challengingDOMPage = new ChallengingDOMPage(page);
         abPage = new ABPage(page);
-        basicAuthPage=new BasicAuthPage(page);
-        brokenImagesPage= new BrokenImagesPage(page);
+        basicAuthPage = new BasicAuthPage(page);
+        brokenImagesPage = new BrokenImagesPage(page);
         addRemovePage = new AddRemovePage(page);
         checkboxesPage = new CheckboxesPage(page);
         digestAuthenticationPage = new DigestAuthenticationPage(page);
@@ -170,17 +150,21 @@ public class BaseTest {
             }
 
             if (video != null) {
-                try (InputStream stream = Files.newInputStream(video.path())) {
-                    Allure.attachment(
-                            "Test video",
-                            "video/webm",
-                            stream,
-                            AttachmentOptions.withFileExtension(".webm")
-                    );
+                if (testFailed) {
+                    try (InputStream stream = Files.newInputStream(video.path())) {
+                        Allure.attachment(
+                                "Test video",
+                                "video/webm",
+                                stream,
+                                AttachmentOptions.withFileExtension(".webm")
+                        );
+                    }
+                } else {
+                    video.delete();
                 }
             }
         } catch (Exception error) {
-            System.err.println("Could not save video: " + error.getMessage());
+            System.err.println("Could not process video: " + error.getMessage());
         } finally {
             try {
                 if (browser != null) {
