@@ -1,10 +1,13 @@
 package tests;
 
 import com.microsoft.playwright.*;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pages.*;
 
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 
@@ -93,8 +96,30 @@ public class BaseTest {
 
     @AfterEach
     void teardown() {
-        if (context != null) context.close();
-        if (browser != null) browser.close();
-        if (playwright != null) playwright.close();
+        Video video = page != null ? page.video() : null;
+
+        try {
+            if (context != null) {
+                context.close();
+            }
+
+            if (video != null) {
+                try (InputStream stream = Files.newInputStream(video.path())) {
+                    Allure.attachment("Test video.webm", stream);
+                }
+            }
+        } catch (Exception error) {
+            System.err.println("Could not save video: " + error.getMessage());
+        } finally {
+            try {
+                if (browser != null) {
+                    browser.close();
+                }
+            } finally {
+                if (playwright != null) {
+                    playwright.close();
+                }
+            }
+        }
     }
 }
