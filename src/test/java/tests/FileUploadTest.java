@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class FileUploadTest extends BaseTest{
-    private Path helloFile() {return Paths.get(System.getProperty("user.home"), "Downloads", "hello.txt");
+    private Path helloFile() throws Exception {
+        return Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource("files/hello.txt")).toURI());
     }
 
 
@@ -22,7 +24,7 @@ public class FileUploadTest extends BaseTest{
     }
 
     @Test
-    void canUploadHelloTxtFile() {
+    void canUploadHelloTxtFile() throws Exception {
         mainPage.fileUploadLink.click();
         Path file = helloFile();
         Assertions.assertTrue(file.toFile().exists());
