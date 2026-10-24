@@ -41,7 +41,13 @@ public class BaseTest {
     @BeforeEach
     void setup(){
         playwright= Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        boolean headless = Boolean.parseBoolean(
+                System.getenv().getOrDefault("HEADLESS", "true")
+        );
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions().setHeadless(headless)
+        );
+        //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
         page=context.newPage();
         page.navigate("https://the-internet.herokuapp.com/");
