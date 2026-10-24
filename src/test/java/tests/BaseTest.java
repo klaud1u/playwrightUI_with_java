@@ -2,6 +2,7 @@ package tests;
 
 import com.microsoft.playwright.*;
 import io.qameta.allure.Allure;
+import io.qameta.allure.AttachmentOptions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pages.*;
@@ -10,6 +11,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
+import java.io.ByteArrayInputStream;
+import java.util.UUID;
 
 public class BaseTest {
     protected Playwright playwright;
@@ -43,6 +49,66 @@ public class BaseTest {
     protected KeyPressesPage keyPressesPage;
     protected LargeAndDeepDOMPage largeAndDeepDOMPage;
     protected LargeFormPage largeFormPage;
+
+    @RegisterExtension
+    protected final AfterTestExecutionCallback failureEvidence = testContext -> {
+        if (testContext.getExecutionException().isEmpty()) {
+            return;
+        }
+
+        Path folder = Path.of(
+                "target",
+                "test-artifacts",
+                testContext.getRequiredTestMethod().getName()
+                        + "-" + UUID.randomUUID()
+        );
+
+        Files.createDirectories(folder);
+
+        try {
+            if (page != null && !page.isClosed()) {
+                byte[] screenshot = page.screenshot(
+                        new Page.ScreenshotOptions()
+                                .setPath(folder.resolve("screenshot.png"))
+                                .setFullPage(true)
+                );
+
+                Allure.attachment(
+                        "Screenshot at failure",
+                        "image/png",
+                        new ByteArrayInputStream(screenshot),
+                        AttachmentOptions.withFileExtension(".png")
+                );
+            }
+        } catch (Exception error) {
+            System.err.println(
+                    "Could not save screenshot: " + error.getMessage()
+            );
+        }
+
+        try {
+            if (context != null) {
+                Path trace = folder.resolve("trace.zip");
+
+                context.tracing().stop(
+                        new Tracing.StopOptions().setPath(trace)
+                );
+
+                try (InputStream stream = Files.newInputStream(trace)) {
+                    Allure.attachment(
+                            "Playwright trace",
+                            "application/zip",
+                            stream,
+                            AttachmentOptions.withFileExtension(".zip")
+                    );
+                }
+            }
+        } catch (Exception error) {
+            System.err.println(
+                    "Could not save trace: " + error.getMessage()
+            );
+        }
+    };
 
     @BeforeEach
     void setup(){
@@ -105,7 +171,12 @@ public class BaseTest {
 
             if (video != null) {
                 try (InputStream stream = Files.newInputStream(video.path())) {
-                    Allure.attachment("Test video.webm", stream);
+                    Allure.attachment(
+                            "Test video",
+                            "video/webm",
+                            stream,
+                            AttachmentOptions.withFileExtension(".webm")
+                    );
                 }
             }
         } catch (Exception error) {
