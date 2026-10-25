@@ -32,7 +32,7 @@ public class LargeAndDeepDOMTest extends BaseTest{
     void tableHas50RowsAnd50Columns() {
         mainPage.largeAndDeepDOMLink.click();
         assertThat(largeAndDeepDOMPage.table).isVisible();
-        Assertions.assertEquals(50, largeAndDeepDOMPage.tableRows.count());
-        Assertions.assertEquals(50, largeAndDeepDOMPage.tableHeaders.count());
+        assertThat(largeAndDeepDOMPage.tableRows).hasCount(50);
+        assertThat(largeAndDeepDOMPage.tableHeaders).hasCount(50);
     }
 }
