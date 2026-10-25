@@ -96,13 +96,19 @@ public class BaseTest {
                 System.getenv().getOrDefault("HEADLESS", "true")
         );
         browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(headless)
+                new BrowserType.LaunchOptions()
+                        .setHeadless(headless)
+                        .setArgs(java.util.List.of("--start-maximized"))
         );
+
+        //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless));
         //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(
                 new Browser.NewContextOptions()
                         .setHttpCredentials("admin", "admin")
+                        .setViewportSize(1920, 1080)
                         .setRecordVideoDir(Path.of("target/videos"))
+                        .setRecordVideoSize(1920, 1080)
         );
         context.tracing().start(new Tracing.StartOptions()
                 .setScreenshots(true)
