@@ -38,6 +38,7 @@ public class MainPage extends BasePage {
     public Locator multipleSelectDropdownLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Multiple Select Dropdown").setExact(true));
     public Locator multipleWindowsLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Multiple Windows").setExact(true));
     public Locator nestedFramesLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Nested Frames").setExact(true));
+    public Locator radioButtonsLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Radio Buttons").setExact(true));
 
 
 
