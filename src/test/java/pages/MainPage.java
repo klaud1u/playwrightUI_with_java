@@ -36,6 +36,7 @@ public class MainPage extends BasePage {
     public Locator largeAndDeepDOMLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Large & Deep DOM").setExact(true));
     public Locator largeFormLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Large Form").setExact(true));
     public Locator multipleSelectDropdownLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Multiple Select Dropdown").setExact(true));
+    public Locator multipleWindowsLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Multiple Windows").setExact(true));
 
 
 
