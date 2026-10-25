@@ -1,6 +1,7 @@
 package tests;
 
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.HttpCredentials;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AttachmentOptions;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import testdata.HttpAuthTestData;
 
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
@@ -101,11 +103,9 @@ public class BaseTest {
                         .setArgs(java.util.List.of("--start-maximized"))
         );
 
-        //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless));
-        //browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(
                 new Browser.NewContextOptions()
-                        .setHttpCredentials("admin", "admin")
+                        .setHttpCredentials( HttpAuthTestData.USERNAME, HttpAuthTestData.PASSWORD)
                         .setViewportSize(1920, 1080)
                         .setRecordVideoDir(Path.of("target/videos"))
                         .setRecordVideoSize(1280, 720)
