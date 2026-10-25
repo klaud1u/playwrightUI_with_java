@@ -15,7 +15,7 @@ public class MultipleSelectDropdownTest extends BaseTest {
     private MultipleSelectDropdownPage multipleSelectDropdownPage;
 
     @BeforeEach
-    void setupPages() {
+    void setupPage() {
         multipleSelectDropdownPage = new MultipleSelectDropdownPage(page);
         mainPage.multipleSelectDropdownLink.click();
     }

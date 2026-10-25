@@ -108,7 +108,7 @@ public class BaseTest {
                         .setHttpCredentials("admin", "admin")
                         .setViewportSize(1920, 1080)
                         .setRecordVideoDir(Path.of("target/videos"))
-                        .setRecordVideoSize(1920, 720)
+                        .setRecordVideoSize(1280, 720)
         );
         context.tracing().start(new Tracing.StartOptions()
                 .setScreenshots(true)
