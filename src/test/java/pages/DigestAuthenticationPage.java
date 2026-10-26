@@ -10,4 +10,7 @@ public class DigestAuthenticationPage extends BasePage {
         super(page);
 
     }
+    public Locator header = page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Digest Auth").setExact(true));
+    public Locator successMessage = page.getByText("Congratulations! You must have the proper credentials.", new Page.GetByTextOptions().setExact(true)
+    );
 }
