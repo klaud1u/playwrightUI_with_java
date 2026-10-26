@@ -95,7 +95,7 @@ public class BaseTest {
 
         playwright = Playwright.create();
         boolean headless = Boolean.parseBoolean(
-                System.getenv().getOrDefault("HEADLESS", "false")
+                System.getenv().getOrDefault("HEADLESS", "true")
         );
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
