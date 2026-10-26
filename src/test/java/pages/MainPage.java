@@ -49,6 +49,10 @@ public class MainPage extends BasePage {
     public Locator typosLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Typos").setExact(true));
     public Locator editorPageLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("WYSIWYG Editor").setExact(true));
     public Locator canvasLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Canvas").setExact(true));
+    public Locator exitIntentLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Exit Intent").setExact(true));
+    public Locator entryAdLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Entry Ad").setExact(true));
+    public Locator dynamicLoadingLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Dynamic Loading").setExact(true));
+    public Locator dynamicControlLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Dynamic Controls").setExact(true));
 
 
 }
