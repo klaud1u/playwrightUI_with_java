@@ -2,6 +2,7 @@ package tests;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.HttpCredentials;
+import config.TestConfig;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AttachmentOptions;
 import org.junit.jupiter.api.AfterEach;
@@ -115,7 +116,7 @@ public class BaseTest {
                 .setSnapshots(true));
 
         page = context.newPage();
-        page.navigate("https://the-internet.herokuapp.com/");
+        page.navigate(TestConfig.BASE_URL + "/");
 
         mainPage = new MainPage(page);
         challengingDOMPage = new ChallengingDOMPage(page);
