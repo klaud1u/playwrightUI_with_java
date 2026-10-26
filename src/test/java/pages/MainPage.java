@@ -47,6 +47,7 @@ public class MainPage extends BasePage {
     public Locator subdirectoriesLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Subdirectories").setExact(true));
     public Locator twoFactorLoginLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Two-Factor Login").setExact(true));
     public Locator typosLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Typos").setExact(true));
+    public Locator editorPageLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("WYSIWYG Editor").setExact(true));
 
 
 }
