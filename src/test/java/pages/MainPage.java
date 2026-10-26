@@ -44,6 +44,7 @@ public class MainPage extends BasePage {
     public Locator shadowDOMLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Shadow DOM").setExact(true));
     public Locator sortableDataTablesLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Sortable Data Tables").setExact(true));
     public Locator statusCodesLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Status Codes").setExact(true));
+    public Locator subdirectoriesLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Subdirectories").setExact(true));
 
 
 }
