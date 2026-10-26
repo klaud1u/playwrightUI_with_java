@@ -42,6 +42,8 @@ public class MainPage extends BasePage {
     public Locator readOnlyInputsLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Read-only Inputs").setExact(true));
     public Locator secureFileDownloadLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Secure File Download").setExact(true));
     public Locator shadowDOMLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Shadow DOM").setExact(true));
+    public Locator sortableDataTablesLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Sortable Data Tables").setExact(true));
+
 
 
 }
