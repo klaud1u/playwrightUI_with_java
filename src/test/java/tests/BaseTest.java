@@ -2,6 +2,7 @@ package tests;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.HttpCredentials;
+import com.microsoft.playwright.options.ViewportSize;
 import config.TestConfig;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AttachmentOptions;
@@ -96,7 +97,7 @@ public class BaseTest {
 
         playwright = Playwright.create();
         boolean headless = Boolean.parseBoolean(
-                System.getenv().getOrDefault("HEADLESS", "true")
+                System.getenv().getOrDefault("HEADLESS", "false")
         );
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
@@ -107,7 +108,7 @@ public class BaseTest {
         context = browser.newContext(
                 new Browser.NewContextOptions()
                         .setHttpCredentials( HttpAuthTestData.USERNAME, HttpAuthTestData.PASSWORD)
-                        .setViewportSize(1920, 1080)
+                        .setViewportSize(headless ? new ViewportSize(1920, 1080) : null)
                         .setRecordVideoDir(Path.of("target/videos"))
                         .setRecordVideoSize(1280, 720)
         );
