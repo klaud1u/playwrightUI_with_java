@@ -37,7 +37,7 @@ public class InfinteScrollTest extends BaseTest{
         assertThat(infiniteScrollPage.textParagraph.first()).isVisible();
         int paragraphsBefore = infiniteScrollPage.textParagraph.count();
         infiniteScrollPage.scrollToBottom(30);
-        assertThat(infiniteScrollPage.textParagraph.nth(paragraphsBefore + 30)).isAttached();
+        assertThat(infiniteScrollPage.textParagraph.nth(paragraphsBefore + 29)).isAttached();
     }
 }
 
