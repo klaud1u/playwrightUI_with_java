@@ -3,14 +3,10 @@ package tests;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.ViewportSize;
 import config.TestConfig;
-import io.qameta.allure.Allure;
-import io.qameta.allure.AttachmentOptions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pages.*;
 
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
@@ -18,8 +14,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import testdata.HttpAuthTestData;
 import utils.TestEvidence;
 
-import java.io.ByteArrayInputStream;
-import java.util.UUID;
 
 public class BaseTest {
     protected Playwright playwright;
@@ -73,7 +67,6 @@ public class BaseTest {
     @AfterEach
     void teardown() {
         Video video = page != null ? page.video() : null;
-
         try {
             if (context != null) {
                 context.close();
