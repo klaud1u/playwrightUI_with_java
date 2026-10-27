@@ -1,7 +1,6 @@
 package tests;
 
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.HttpCredentials;
 import com.microsoft.playwright.options.ViewportSize;
 import config.TestConfig;
 import io.qameta.allure.Allure;
@@ -46,7 +45,6 @@ public class BaseTest {
     protected FormAuthenticationPage formAuthenticationPage;
     protected HorizontalSliderPage horizontalSliderPage;
     protected HoversPage hoversPage;
-    protected InfiniteScrollPage infiniteScrollPage;
     protected InputsPage inputsPage;
     protected JqueryUIMenusPage jQueryUIMenusPage;
     protected JavaScriptAlertsPage javaScriptAlertsPage;
@@ -139,7 +137,6 @@ public class BaseTest {
         formAuthenticationPage = new FormAuthenticationPage(page);
         horizontalSliderPage = new HorizontalSliderPage(page);
         hoversPage = new HoversPage(page);
-        infiniteScrollPage = new InfiniteScrollPage(page);
         inputsPage = new InputsPage(page);
         jQueryUIMenusPage = new JqueryUIMenusPage(page);
         javaScriptAlertsPage = new JavaScriptAlertsPage(page);
