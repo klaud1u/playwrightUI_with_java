@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.ABPage;
 import pages.GetByTextPage;
@@ -12,9 +13,16 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 import static java.awt.SystemColor.text;
 
 public class ABTest extends BaseTest{
+    private ABPage abPage;
+
+    @BeforeEach
+    void setupPage() {
+        abPage = new ABPage(page);
+        mainPage.AbTestingLink.click();
+    }
+
     @Test
     void weAreOnToABtest() {
-        mainPage.AbTestingLink.click();
         assertThat(abPage.header).hasText(Pattern.compile("^A/B Test (Control|Variation 1)$"));
         assertThat(abPage.text).containsText("Also known as split testing.");
     }

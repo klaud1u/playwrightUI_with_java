@@ -4,10 +4,12 @@ package tests;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.BoundingBox;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import pages.LargeFormPage;
 import testdata.LargeFormTestData;
 
 
@@ -16,9 +18,16 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 public class LargeFormTest extends BaseTest {
 
+    private LargeFormPage largeFormPage;
+
+    @BeforeEach
+    void setupPage() {
+        largeFormPage = new LargeFormPage(page);
+        mainPage.largeFormLink.click();
+    }
+
     @Test
     void submittingLargeFormDisplaysAllEnteredValues() {
-        mainPage.largeFormLink.click();
         assertThat(largeFormPage.header).isVisible();
 
         largeFormPage.firstName.fill(LargeFormTestData.FIRST_NAME);
@@ -88,7 +97,7 @@ public class LargeFormTest extends BaseTest {
 
     @Test
     void resetRestoresAllFormDefaults() {
-        mainPage.largeFormLink.click();
+
 
         largeFormPage.firstName.fill(LargeFormTestData.FIRST_NAME);
         assertThat(largeFormPage.firstName).hasValue(LargeFormTestData.FIRST_NAME);
@@ -179,7 +188,6 @@ public class LargeFormTest extends BaseTest {
             "121, invalid"
     })
     void submittingAgeShowsExpectedPage(int age, String ageStatus) {
-        mainPage.largeFormLink.click();
         largeFormPage.age.fill(String.valueOf(age));
         largeFormPage.submitButton.click();
         Locator expectedHeading = ageStatus.equals("valid") ? largeFormPage.submittedFormHeader : largeFormPage.header;
@@ -188,7 +196,6 @@ public class LargeFormTest extends BaseTest {
 
     @Test
     void onlyOneContactMethodCanBeSelected() throws InterruptedException {
-        mainPage.largeFormLink.click();
         assertThat(largeFormPage.contactEmail).isChecked();
         assertThat(largeFormPage.contactPhone).not().isChecked();
         assertThat(largeFormPage.dontContactMeBy).not().isChecked();
@@ -205,7 +212,6 @@ public class LargeFormTest extends BaseTest {
     @ParameterizedTest
     @CsvSource({"ar", "de", "in", "us"})
     void eachCountryCanBeSelectedAndSubmitted(String value) {
-        mainPage.largeFormLink.click();
         largeFormPage.country.selectOption(value);
         assertThat(largeFormPage.country).hasValue(value);
         largeFormPage.submitButton.click();
@@ -215,7 +221,6 @@ public class LargeFormTest extends BaseTest {
 
     @Test
     void interestFieldIsHiddenWhenNoInterestIsSelected() throws InterruptedException {
-        mainPage.largeFormLink.click();
         assertThat(largeFormPage.header).hasText("Large Form");
         assertThat(largeFormPage.automationInterest).not().isChecked();
         assertThat(largeFormPage.devopsInterest).not().isChecked();
@@ -226,7 +231,6 @@ public class LargeFormTest extends BaseTest {
     }
     @Test
     void termsFieldIsNotPresentOnSubmittedFormWhenUnchecked() throws InterruptedException {
-        mainPage.largeFormLink.click();
         assertThat(largeFormPage.header).hasText("Large Form");
         assertThat(largeFormPage.terms).not().isChecked();
         largeFormPage.submitButton.click();
@@ -250,7 +254,6 @@ public class LargeFormTest extends BaseTest {
 
     })
     void submittingEmailShowsExpectedPage(String email, String emailType) {
-        mainPage.largeFormLink.click();
         largeFormPage.email.fill(email);
         largeFormPage.submitButton.click();
         Locator expectedHeading = emailType.equals("valid") ? largeFormPage.submittedFormHeader : largeFormPage.header;
@@ -264,7 +267,6 @@ public class LargeFormTest extends BaseTest {
             "none"
     })
     void eachContactPreferenceCanBeSelectedAndSubmitted(String contact) {
-        mainPage.largeFormLink.click();
         largeFormPage.contactMeOption(contact).check();
         assertThat(largeFormPage.contactMeOption(contact)).isChecked();
         largeFormPage.submitButton.click();
@@ -283,7 +285,6 @@ public class LargeFormTest extends BaseTest {
             "testing,automation,devops"
     })
     void interestCombinationsCanBeSelectedAndSubmitted(String selectedInterests) {
-        mainPage.largeFormLink.click();
         String[] interests = selectedInterests.split(",");
         largeFormPage.selectInterests(interests);
         for (String interest : interests) {
@@ -304,7 +305,6 @@ public class LargeFormTest extends BaseTest {
             "English,German,Hindi,Spanish"
     })
     void languageCombinationsCanBeSelectedAndSubmitted(String selectedLanguages) {
-        mainPage.largeFormLink.click();
         String[] languages = selectedLanguages.split(",");
         largeFormPage.languages.selectOption(languages);
         largeFormPage.submitButton.click();
@@ -314,7 +314,6 @@ public class LargeFormTest extends BaseTest {
 
     @Test
     void aboutYouFieldCanBeResizedWithMouse() throws InterruptedException {
-        mainPage.largeFormLink.click();
         largeFormPage.aboutYou.scrollIntoViewIfNeeded();
         BoundingBox sizeBefore = largeFormPage.aboutYou.boundingBox();
         largeFormPage.resizeAboutYouField(-50, 40);

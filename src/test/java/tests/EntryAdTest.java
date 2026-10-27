@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pages.EntryAdPage;
-import pages.MainPage;
+
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

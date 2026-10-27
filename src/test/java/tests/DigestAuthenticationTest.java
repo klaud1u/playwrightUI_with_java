@@ -15,11 +15,11 @@ public class DigestAuthenticationTest  extends BaseTest{
     @BeforeEach
     void setupPage() {
         digestAuthenticationPage = new DigestAuthenticationPage(page);
+        mainPage.digestAuthenticationLink.click();
     }
 
     @Test
     void validCredentialsOpenDigestAuthenticationPage() {
-        mainPage.digestAuthenticationLink.click();
         assertThat(digestAuthenticationPage.header).hasText("Digest Auth");
         assertThat(digestAuthenticationPage.successMessage).hasText("Congratulations! You must have the proper credentials.");
     }

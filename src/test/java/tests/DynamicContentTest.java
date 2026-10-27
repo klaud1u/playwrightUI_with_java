@@ -2,14 +2,23 @@ package tests;
 
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.DynamicContentPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class DynamicContentTest extends BaseTest {
+    private DynamicContentPage dynamicContentPage;
+
+    @BeforeEach
+    void setupPage() {
+        dynamicContentPage = new DynamicContentPage(page);
+        mainPage.dynamicContentLink.click();
+    }
+
     @Test
     void allImagesAreVisibleAndLoaded() {
-        mainPage.dynamicContentLink.click();
         assertThat(dynamicContentPage.header).isVisible();
         assertThat(dynamicContentPage.avatars).hasCount(3);
         dynamicContentPage.waitForImagesToFinishLoading();
