@@ -1,11 +1,22 @@
 package tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import pages.KeyPressesPage;
+
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class KeyPressesTest extends BaseTest{
+
+    private KeyPressesPage keyPressesPage;
+
+    @BeforeEach
+    void setupPage() {
+        keyPressesPage = new KeyPressesPage(page);
+        mainPage.keyPressesLink.click();
+    }
 
     @ParameterizedTest
     @CsvSource({
@@ -17,7 +28,6 @@ public class KeyPressesTest extends BaseTest{
             "Escape, ESCAPE"
     })
     void pressedKeyIsShownWithoutTypingInInput(String key, String expectedKey) {
-        mainPage.keyPressesLink.click();
         assertThat(keyPressesPage.header).hasText("Key Presses");
         assertThat(keyPressesPage.result).isHidden();
         page.keyboard().press(key);
@@ -27,7 +37,6 @@ public class KeyPressesTest extends BaseTest{
 
     @Test
     void pressingEnterAfterTypingClearsResultMessage() {
-        mainPage.keyPressesLink.click();
         keyPressesPage.input.click();
         keyPressesPage.input.press("a");
         assertThat(keyPressesPage.result).hasText("You entered: A");

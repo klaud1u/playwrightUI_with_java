@@ -26,32 +26,6 @@ public class BaseTest {
     protected BrowserContext context;
     protected Page page;
     protected MainPage mainPage;
-    protected ChallengingDOMPage challengingDOMPage;
-    protected ABPage abPage;
-    protected BasicAuthPage basicAuthPage;
-    protected BrokenImagesPage brokenImagesPage;
-    protected AddRemovePage addRemovePage;
-    protected CheckboxesPage checkboxesPage;
-    protected DigestAuthenticationPage digestAuthenticationPage;
-    protected ContextMenuPage contextMenuPage;
-    protected DisappearingElementsPage disappearingElementsPage;
-    protected DragAndDropPage dragAndDropPage;
-    protected DropdownPage dropdownPage;
-    protected DynamicContentPage dynamicContentPage;
-    protected FileDownloadPage fileDownloadPage;
-    protected FileUploadPage fileUploadPage;
-    protected FloatingMenuPage floatingMenuPage;
-    protected ForgotPasswordPage forgotPasswordPage;
-    protected FormAuthenticationPage formAuthenticationPage;
-    protected HorizontalSliderPage horizontalSliderPage;
-    protected HoversPage hoversPage;
-    protected InputsPage inputsPage;
-    protected JqueryUIMenusPage jQueryUIMenusPage;
-    protected JavaScriptAlertsPage javaScriptAlertsPage;
-    protected KeyPressesPage keyPressesPage;
-    protected LargeAndDeepDOMPage largeAndDeepDOMPage;
-    protected LargeFormPage largeFormPage;
-
     private boolean testFailed;
 
     @RegisterExtension
@@ -95,14 +69,13 @@ public class BaseTest {
 
         playwright = Playwright.create();
         boolean headless = Boolean.parseBoolean(
-                System.getenv().getOrDefault("HEADLESS", "false")
+                System.getenv().getOrDefault("HEADLESS", "true")
         );
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
                         .setHeadless(headless)
                         .setArgs(java.util.List.of("--start-maximized"))
         );
-
         context = browser.newContext(
                 new Browser.NewContextOptions()
                         .setHttpCredentials( HttpAuthTestData.USERNAME, HttpAuthTestData.PASSWORD)
@@ -113,36 +86,11 @@ public class BaseTest {
         context.tracing().start(new Tracing.StartOptions()
                 .setScreenshots(true)
                 .setSnapshots(true));
-
         page = context.newPage();
         page.navigate(TestConfig.BASE_URL + "/");
 
         mainPage = new MainPage(page);
-        challengingDOMPage = new ChallengingDOMPage(page);
-        abPage = new ABPage(page);
-        basicAuthPage = new BasicAuthPage(page);
-        brokenImagesPage = new BrokenImagesPage(page);
-        addRemovePage = new AddRemovePage(page);
-        checkboxesPage = new CheckboxesPage(page);
-        digestAuthenticationPage = new DigestAuthenticationPage(page);
-        contextMenuPage = new ContextMenuPage(page);
-        disappearingElementsPage = new DisappearingElementsPage(page);
-        dragAndDropPage = new DragAndDropPage(page);
-        dropdownPage = new DropdownPage(page);
-        dynamicContentPage = new DynamicContentPage(page);
-        fileDownloadPage = new FileDownloadPage(page);
-        fileUploadPage = new FileUploadPage(page);
-        floatingMenuPage = new FloatingMenuPage(page);
-        forgotPasswordPage = new ForgotPasswordPage(page);
-        formAuthenticationPage = new FormAuthenticationPage(page);
-        horizontalSliderPage = new HorizontalSliderPage(page);
-        hoversPage = new HoversPage(page);
-        inputsPage = new InputsPage(page);
-        jQueryUIMenusPage = new JqueryUIMenusPage(page);
-        javaScriptAlertsPage = new JavaScriptAlertsPage(page);
-        keyPressesPage = new KeyPressesPage(page);
-        largeAndDeepDOMPage = new LargeAndDeepDOMPage(page);
-        largeFormPage = new LargeFormPage(page);
+
     }
 
     @AfterEach

@@ -3,7 +3,9 @@ package tests;
 import com.microsoft.playwright.FileChooser;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.FileUploadPage;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +14,15 @@ import java.util.Objects;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class FileUploadTest extends BaseTest{
+
+    private FileUploadPage fileUploadPage;
+
+    @BeforeEach
+    void setupPage() {
+        fileUploadPage = new FileUploadPage(page);
+        mainPage.fileUploadLink.click();
+    }
+
     private Path helloFile() throws Exception {
         return Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource("files/hello.txt")).toURI());
     }
@@ -19,13 +30,11 @@ public class FileUploadTest extends BaseTest{
 
     @Test
     void navigateToFileUpload() {
-        mainPage.fileUploadLink.click();
         assertThat(fileUploadPage.header).isVisible();
     }
 
     @Test
     void canUploadHelloTxtFile() throws Exception {
-        mainPage.fileUploadLink.click();
         Path file = helloFile();
         Assertions.assertTrue(file.toFile().exists());
         fileUploadPage.chooseFileBtn.setInputFiles(file);
@@ -36,7 +45,6 @@ public class FileUploadTest extends BaseTest{
 
     @Test
     void uploadingWithoutFile() {
-        mainPage.fileUploadLink.click();
         fileUploadPage.uploadBtn.click();
         assertThat(fileUploadPage.uploadErrorHeader).isVisible();
         assertThat(fileUploadPage.uploadErrorMessage).hasText("No file was chosen. Please choose a file to upload.");
@@ -45,7 +53,6 @@ public class FileUploadTest extends BaseTest{
 
     @Test
     void backLinkReturnsToFileUploader() {
-        mainPage.fileUploadLink.click();
         fileUploadPage.uploadBtn.click();
         fileUploadPage.backToUploaderLink.click();
         assertThat(fileUploadPage.header).isVisible();

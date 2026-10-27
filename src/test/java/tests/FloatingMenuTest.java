@@ -1,13 +1,23 @@
 package tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.FloatingMenuPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class FloatingMenuTest extends BaseTest{
+
+    private FloatingMenuPage floatingMenuPage;
+
+    @BeforeEach
+    void setupPage() {
+        floatingMenuPage = new FloatingMenuPage(page);
+        mainPage.floatingMenuLink.click();
+    }
+
     @Test
     void floatingMenuRemainsVisibleAfterScroll() {
-        mainPage.floatingMenuLink.click();
         assertThat(floatingMenuPage.header).isVisible();
         assertThat(floatingMenuPage.floatingMenu).isVisible();
         floatingMenuPage.elementalSeleniumLink.scrollIntoViewIfNeeded();

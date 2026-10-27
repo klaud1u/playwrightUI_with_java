@@ -1,15 +1,23 @@
 package tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.HoversPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class HoversTest extends BaseTest{
+    private HoversPage hoversPage;
+
+    @BeforeEach
+    void setupPage() {
+        hoversPage = new HoversPage(page);
+        mainPage.hoversLink.click();
+    }
 
 
     @Test
     void hoverOverUser1ShowsItsProfile() {
-        mainPage.hoversLink.click();
         assertThat(hoversPage.userName(0)).isHidden();
         assertThat(hoversPage.userProfileLink(0)).isHidden();
         hoversPage.userImage(0).hover();
@@ -19,7 +27,6 @@ public class HoversTest extends BaseTest{
 
     @Test
     void hoverOverUser2ShowsItsProfile() {
-        mainPage.hoversLink.click();
         assertThat(hoversPage.userName(1)).isHidden();
         assertThat(hoversPage.userProfileLink(1)).isHidden();
         hoversPage.userImage(1).hover();
@@ -29,7 +36,6 @@ public class HoversTest extends BaseTest{
 
     @Test
     void hoverOverUser3ShowsItsProfile() {
-        mainPage.hoversLink.click();
         assertThat(hoversPage.userName(2)).isHidden();
         assertThat(hoversPage.userProfileLink(2)).isHidden();
         hoversPage.userImage(2).hover();
@@ -39,7 +45,6 @@ public class HoversTest extends BaseTest{
 
     @Test
     void movingHoverFromUser1ToUser3UpdatesProfile() {
-        mainPage.hoversLink.click();
         hoversPage.userImage(0).hover();
         assertThat(hoversPage.userName(0)).hasText("name: user1");
         assertThat(hoversPage.userProfileLink(0)).isVisible();
