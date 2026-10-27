@@ -55,6 +55,9 @@ public class MainPage extends BasePage {
     public Locator entryAdLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Entry Ad").setExact(true));
     public Locator dynamicLoadingLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Dynamic Loading").setExact(true));
     public Locator dynamicControlLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Dynamic Controls").setExact(true));
+    public Locator shiftingContentLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Shifting Content").setExact(true));
+    public Locator redirectLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Redirect Link").setExact(true));
+    public Locator javaScriptOnloadEventErrorLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("JavaScript onload event error").setExact(true));
 
 
 }
