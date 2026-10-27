@@ -9,16 +9,16 @@ public class MainPage extends BasePage {
         super(page);
     }
 
-    public Locator AbTestingLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("A/B Testing"));
-    public Locator addRemoveElements = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Add/Remove Elements"));
-    public Locator brokenImagesLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Broken Images"));
-    public Locator basicAuthLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Basic Auth"));
-    public Locator challengingDOMLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Challenging DOM"));
-    public Locator checkboxLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Checkboxes"));
-    public Locator digestAuthenticationLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Digest Authentication"));
-    public Locator contextMenuLink= page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Context Menu"));
-    public Locator disappearingElementsLink= page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Disappearing Elements"));
-    public Locator dragAndDropLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Drag and Drop"));
+    public Locator AbTestingLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("A/B Testing").setExact(true));
+    public Locator addRemoveElements = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Add/Remove Elements").setExact(true));
+    public Locator brokenImagesLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Broken Images").setExact(true));
+    public Locator basicAuthLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Basic Auth").setExact(true));
+    public Locator challengingDOMLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Challenging DOM").setExact(true));
+    public Locator checkboxLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Checkboxes").setExact(true));
+    public Locator digestAuthenticationLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Digest Authentication").setExact(true));
+    public Locator contextMenuLink= page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Context Menu").setExact(true));
+    public Locator disappearingElementsLink= page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Disappearing Elements").setExact(true));
+    public Locator dragAndDropLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Drag and Drop").setExact(true));
     public Locator dropdownLink = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Dropdown").setExact(true));
     public Locator dynamicContentLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Dynamic Content"));
     public Locator fileDownloadLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("File Download").setExact(true));
@@ -26,6 +26,8 @@ public class MainPage extends BasePage {
     public Locator floatingMenuLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Floating Menu").setExact(true));
     public Locator forgotPasswordLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Forgot Password").setExact(true));
     public Locator formAuthenticationLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Form Authentication").setExact(true));
+    public Locator framesLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Frames").setExact(true));
+    public Locator geolocationLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Geolocation").setExact(true));
     public Locator horizontalSliderLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Horizontal Slider").setExact(true));
     public Locator hoversLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Hovers").setExact(true));
     public Locator infiniteScrollLink =page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Infinite Scroll").setExact(true));
