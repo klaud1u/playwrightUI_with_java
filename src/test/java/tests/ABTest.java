@@ -6,14 +6,16 @@ import pages.ABPage;
 import pages.GetByTextPage;
 import pages.MainPage;
 
+import java.util.regex.Pattern;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static java.awt.SystemColor.text;
 
 public class ABTest extends BaseTest{
     @Test
-    void clickABtest(){
+    void weAreOnToABtest() {
         mainPage.AbTestingLink.click();
-        String headerText = abPage.header.textContent().trim();
-        Assertions.assertTrue(headerText.equals("A/B Test Control") || headerText.equals("A/B Test Variation 1"));
-        Assertions.assertTrue(abPage.text.textContent().contains("Also known as split testing."));
+        assertThat(abPage.header).hasText(Pattern.compile("^A/B Test (Control|Variation 1)$"));
+        assertThat(abPage.text).containsText("Also known as split testing.");
     }
 }
