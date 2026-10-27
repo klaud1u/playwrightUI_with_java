@@ -3,8 +3,20 @@ name: UI tests
 on:
   push:
     branches: [master]
+
   pull_request:
     branches: [master]
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        required: true
+        default: qa
+        type: choice
+        options:
+          - qa
+          - uat
 
 jobs:
   test:
@@ -24,6 +36,7 @@ jobs:
 
       - name: Run tests
         env:
+          ENV: ${{ inputs.environment || 'qa' }}
           HEADLESS: "true"
         run: mvn -B clean test -Dsurefire.rerunFailingTestsCount=2
 
