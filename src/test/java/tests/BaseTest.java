@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import testdata.HttpAuthTestData;
+import utils.TestEvidence;
 
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
@@ -32,34 +33,12 @@ public class BaseTest {
     protected final AfterTestExecutionCallback failureEvidence = testContext -> {
         testFailed = testContext.getExecutionException().isPresent();
 
-        if (!testFailed) {
-            return;
-        }
-
-        Path folder = Path.of("target", "test-artifacts", testContext.getRequiredTestMethod().getName() + "-" + UUID.randomUUID());
-
-        Files.createDirectories(folder);
-
-        try {
-            if (page != null && !page.isClosed()) {
-                byte[] screenshot = page.screenshot(new Page.ScreenshotOptions().setPath(folder.resolve("screenshot.png")).setFullPage(true));
-
-                Allure.attachment("Screenshot at failure", "image/png", new ByteArrayInputStream(screenshot), AttachmentOptions.withFileExtension(".png"));
-            }
-        } catch (Exception error) {
-            System.err.println("Could not save screenshot: " + error.getMessage());
-        }
-
-        try {
-            if (context != null) {
-                Path trace = folder.resolve("trace.zip");
-                context.tracing().stop(new Tracing.StopOptions().setPath(trace));
-                try (InputStream stream = Files.newInputStream(trace)) {
-                    Allure.attachment("Playwright trace", "application/zip", stream, AttachmentOptions.withFileExtension(".zip"));
-                }
-            }
-        } catch (Exception error) {
-            System.err.println("Could not save trace: " + error.getMessage());
+        if (testFailed) {
+            TestEvidence.saveFailureEvidence(
+                    page,
+                    context,
+                    testContext.getRequiredTestMethod().getName()
+            );
         }
     };
 
@@ -68,9 +47,7 @@ public class BaseTest {
         testFailed = false;
 
         playwright = Playwright.create();
-        boolean headless = Boolean.parseBoolean(
-                System.getenv().getOrDefault("HEADLESS", "true")
-        );
+        boolean headless = TestConfig.HEADLESS;
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
                         .setHeadless(headless)
@@ -78,7 +55,7 @@ public class BaseTest {
         );
         context = browser.newContext(
                 new Browser.NewContextOptions()
-                        .setHttpCredentials( HttpAuthTestData.USERNAME, HttpAuthTestData.PASSWORD)
+                        .setHttpCredentials(HttpAuthTestData.USERNAME, HttpAuthTestData.PASSWORD)
                         .setViewportSize(headless ? new ViewportSize(1920, 1080) : null)
                         .setRecordVideoDir(Path.of("target/videos"))
                         .setRecordVideoSize(1280, 720)
@@ -102,22 +79,7 @@ public class BaseTest {
                 context.close();
             }
 
-            if (video != null) {
-                if (testFailed) {
-                    try (InputStream stream = Files.newInputStream(video.path())) {
-                        Allure.attachment(
-                                "Test video",
-                                "video/webm",
-                                stream,
-                                AttachmentOptions.withFileExtension(".webm")
-                        );
-                    }
-                } else {
-                    video.delete();
-                }
-            }
-        } catch (Exception error) {
-            System.err.println("Could not process video: " + error.getMessage());
+            TestEvidence.processVideo(video, testFailed);
         } finally {
             try {
                 if (browser != null) {
