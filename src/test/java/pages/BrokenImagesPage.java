@@ -24,4 +24,11 @@ public class BrokenImagesPage extends BasePage {
         """);
     }
 
+    public int brokenImagesCount() {
+        return ((Number) images.evaluateAll(
+                "images => images.filter(img => img.complete && img.naturalWidth === 0).length"
+        )).intValue();
+    }
+
+
 }

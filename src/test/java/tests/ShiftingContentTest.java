@@ -2,11 +2,12 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ShiftingContentPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class ShiftingContentTest extends BaseTest{
 
     private ShiftingContentPage shiftingContentPage;
@@ -14,10 +15,11 @@ public class ShiftingContentTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         shiftingContentPage = new ShiftingContentPage(page);
-        mainPage.shiftingContentLink.click();
+        mainPage.navigateToShiftingContent();
     }
 
     @Test
+    @Tag("smoke")
     void weAreOnShiftingContentPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/shifting_content");
         assertThat(shiftingContentPage.header).hasText("Shifting Content");

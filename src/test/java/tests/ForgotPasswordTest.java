@@ -1,13 +1,15 @@
 package tests;
 
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.BasePage;
 import pages.ForgotPasswordPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class ForgotPasswordTest extends BaseTest {
 
     private ForgotPasswordPage forgotPasswordPage;
@@ -15,12 +17,19 @@ public class ForgotPasswordTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         forgotPasswordPage = new ForgotPasswordPage(page);
-        mainPage.forgotPasswordLink.click();
+        mainPage.navigateToForgotPassword();
     }
 
     @Test
-    void emailAddressFieldIsInitiallyEmpty() {
-        assertThat(forgotPasswordPage.emailField).isEmpty();
+    @Tag("smoke")
+    void forgotPasswordPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/forgot_password");
+        assertThat(forgotPasswordPage.header).hasText("Forgot Password");
+        assertThat(forgotPasswordPage.emailField).isVisible();
+        assertThat(forgotPasswordPage.emailField).isEditable();
+        assertThat(forgotPasswordPage.emailField).hasValue("");
+        assertThat(forgotPasswordPage.retrievePasswordBtn).isVisible();
+        assertThat(forgotPasswordPage.retrievePasswordBtn).isEnabled();
     }
 
     @Test

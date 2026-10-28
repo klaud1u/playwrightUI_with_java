@@ -5,6 +5,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.BoundingBox;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,7 +16,7 @@ import testdata.LargeFormTestData;
 
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class LargeFormTest extends BaseTest {
 
     private LargeFormPage largeFormPage;
@@ -23,10 +24,11 @@ public class LargeFormTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         largeFormPage = new LargeFormPage(page);
-        mainPage.largeFormLink.click();
+        mainPage.navigateToLargeForm();
     }
 
     @Test
+    @Tag("smoke")
     void submittingLargeFormDisplaysAllEnteredValues() {
         assertThat(largeFormPage.header).isVisible();
 

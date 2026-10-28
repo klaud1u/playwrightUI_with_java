@@ -3,6 +3,7 @@ package tests;
 import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.JavaScriptOnloadEventErrorPage;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class JavaScriptOnloadEventErrorTest extends BaseTest{
 
     private JavaScriptOnloadEventErrorPage javaScriptOnloadEventErrorPage;
@@ -18,10 +19,11 @@ public class JavaScriptOnloadEventErrorTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         javaScriptOnloadEventErrorPage= new JavaScriptOnloadEventErrorPage(page);
-        mainPage.javaScriptOnloadEventErrorLink.click();
+        mainPage.navigateToJavaScriptOnloadEventError();
     }
 
     @Test
+    @Tag("smoke")
     void weAreOnJavaScriptErrorPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/javascript_error");
         assertThat(javaScriptOnloadEventErrorPage.text).containsText("This page has a JavaScript error in the onload event.");

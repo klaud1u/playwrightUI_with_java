@@ -1,22 +1,24 @@
 package tests;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.EditorPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class EditorTest extends BaseTest{
     private EditorPage editorPage;
 
     @BeforeEach
     void setupPage() {
         editorPage = new EditorPage(page);
-        mainPage.editorPageLink.click();
+        mainPage.navigateToEditor();
     }
 
     @Test
-    void editorDisplaysInitialContent() {
+    @Tag("smoke")
+    void editorDisplaysDisplayedContent() {
         assertThat(editorPage.header).hasText("An iFrame containing the TinyMCE WYSIWYG Editor");
         assertThat(editorPage.editor).isVisible();
         assertThat(editorPage.editor).isEditable();

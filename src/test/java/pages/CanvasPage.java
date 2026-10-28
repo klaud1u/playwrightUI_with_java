@@ -14,4 +14,24 @@ public class CanvasPage extends BasePage {
     public Locator canvas = page.locator("#canvas");
     public Locator submittedMsg = page.locator("#canvas-log");
 
+
+    public void clickAt(double x, double y) {
+        canvas.click(new Locator.ClickOptions().setPosition(x, y));
+    }
+
+    public void clickCanvas() {
+        canvas.click();
+    }
+
+    public void typeText(String text) {
+        canvas.pressSequentially(text);
+    }
+
+    public void removeLastCharacter() {
+        canvas.press("Backspace");
+    }
+
+    public void submitText() {
+        canvas.press("Enter");
+    }
 }

@@ -1,10 +1,14 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.CheckboxesPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+@Tag("regression")
 public class CheckBoxesTest extends BaseTest {
 
     private CheckboxesPage checkboxesPage;
@@ -12,53 +16,47 @@ public class CheckBoxesTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         checkboxesPage = new CheckboxesPage(page);
-        mainPage.checkboxLink.click();
+        mainPage.navigateToCheckboxes();
     }
 
     @Test
+    @Tag("smoke")
     public void navigateToCheckboxesPage() {
-
-        Assertions.assertEquals("Checkboxes", checkboxesPage.header.textContent().trim());
-        Assertions.assertTrue(checkboxesPage.firstCheckbox.isVisible());
-        Assertions.assertTrue(checkboxesPage.secondCheckbox.isVisible());
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/checkboxes");
+        assertThat(checkboxesPage.header).hasText("Checkboxes");
+        assertThat(checkboxesPage.firstCheckbox).isVisible();
+        assertThat(checkboxesPage.secondCheckbox).isVisible();
+        assertThat(checkboxesPage.secondCheckbox).isChecked();
+        assertThat(checkboxesPage.firstCheckbox).not().isChecked();
     }
 
-    @Test
-    public void secondCheckBoxIsCheckedWhenWeNavigateToCheckboxesPage() {
 
-        Assertions.assertTrue(checkboxesPage.secondCheckbox.isChecked());
-    }
-    @Test
-    public void firstCheckBoxIsNotCheckedWhenWeNavigateToCheckboxesPage() {
-
-        Assertions.assertFalse(checkboxesPage.firstCheckbox.isChecked());
-    }
 @Test
 void shouldCheckFirstCheckbox(){
-       Assertions.assertFalse(checkboxesPage.firstCheckbox.isChecked());
+       assertThat(checkboxesPage.firstCheckbox).not().isChecked();
        checkboxesPage.firstCheckbox.click();
-       Assertions.assertTrue(checkboxesPage.firstCheckbox.isChecked());
+       assertThat(checkboxesPage.firstCheckbox).isChecked();
 }
 @Test
     void shouldUncheckSecondCheckbox(){
-    Assertions.assertTrue(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.secondCheckbox).isChecked();
     checkboxesPage.secondCheckbox.click();
-    Assertions.assertFalse(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.secondCheckbox).not().isChecked();
 }
 @Test
     void checkingFirstCheckboxShouldNotChangeSecondCheckbox(){
-    Assertions.assertFalse(checkboxesPage.firstCheckbox.isChecked());
-    Assertions.assertTrue(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.firstCheckbox).not().isChecked();
+    assertThat(checkboxesPage.secondCheckbox).isChecked();
     checkboxesPage.firstCheckbox.click();
-    Assertions.assertTrue(checkboxesPage.firstCheckbox.isChecked());
-    Assertions.assertTrue(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.firstCheckbox).isChecked();
+    assertThat(checkboxesPage.secondCheckbox).isChecked();
 }
 @Test
     void uncheckingSecondCheckboxShouldNotChangeFirstCheckbox(){
-    Assertions.assertFalse(checkboxesPage.firstCheckbox.isChecked());
-    Assertions.assertTrue(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.firstCheckbox).not().isChecked();
+    assertThat(checkboxesPage.secondCheckbox).isChecked();
     checkboxesPage.secondCheckbox.click();
-    Assertions.assertFalse(checkboxesPage.firstCheckbox.isChecked());
-    Assertions.assertFalse(checkboxesPage.secondCheckbox.isChecked());
+    assertThat(checkboxesPage.firstCheckbox).not().isChecked();
+    assertThat(checkboxesPage.secondCheckbox).not().isChecked();
 }
 }

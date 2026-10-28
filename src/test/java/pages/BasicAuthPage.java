@@ -10,6 +10,6 @@ public class BasicAuthPage extends BasePage{
       super(page);
 
   }
-  public Locator basicAuthHeader = page.getByText("Basic Auth");
+  public Locator header = page.getByText("Basic Auth");
 
 }

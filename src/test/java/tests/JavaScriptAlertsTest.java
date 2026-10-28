@@ -3,22 +3,24 @@ package tests;
 import com.microsoft.playwright.Dialog;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.BasePage;
 import pages.JavaScriptAlertsPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class JavaScriptAlertsTest extends BaseTest{
     private JavaScriptAlertsPage javaScriptAlertsPage;
 
     @BeforeEach
     void setupPage() {
         javaScriptAlertsPage = new JavaScriptAlertsPage(page);
-        mainPage.javaScriptAlertsLink.click();
+        mainPage.navigateToJavaScriptAlerts();
     }
 
     @Test
+    @Tag("smoke")
     void weCanNavigateToJavaScriptAlertsPage() {
 
         assertThat(javaScriptAlertsPage.header).hasText("JavaScript Alerts");

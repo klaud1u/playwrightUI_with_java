@@ -1,14 +1,18 @@
 package tests;
 
 import com.microsoft.playwright.Locator;
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.BrokenImagesPage;
 import pages.ChallengingDOMPage;
 import pages.MainPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
+@Tag("regression")
 public class ChallengingDOMTest  extends  BaseTest{
 
     private ChallengingDOMPage challengingDOMPage;
@@ -16,7 +20,7 @@ public class ChallengingDOMTest  extends  BaseTest{
     @BeforeEach
     void setupPage() {
         challengingDOMPage = new ChallengingDOMPage(page);
-        mainPage.challengingDOMLink.click();
+        mainPage.navigateToChallengingDOM();
     }
 
 
@@ -25,22 +29,32 @@ public class ChallengingDOMTest  extends  BaseTest{
             String beforeCanvas = (String) challengingDOMPage.canvas.evaluate("el => el.toDataURL()");
             button.click();
             String afterCanvas = (String) challengingDOMPage.canvas.evaluate("el => el.toDataURL()");
-            Assertions.assertNotEquals(beforeCanvas, afterCanvas, "Nu sa schimbat textul" + i);
+            Assertions.assertNotEquals(beforeCanvas, afterCanvas, "text didn't changed" + i);
         }
     }
+
     @Test
+    @Tag("smoke")
+    void pageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/challenging_dom");
+        assertThat(challengingDOMPage.header).hasText("Challenging DOM");
+        assertThat(challengingDOMPage.blackBtn).isVisible();
+        assertThat(challengingDOMPage.orangeBtn).isVisible();
+        assertThat(challengingDOMPage.greenBtn).isVisible();
+        assertThat(challengingDOMPage.canvas).isVisible();
+    }
+
+    @Test
+    @Tag("smoke")
 void testChallengingDomBlackBtn(){
-     Assertions.assertEquals("Challenging DOM", challengingDOMPage.header.textContent().trim());
      verifyCanvasChangesAfterClick(challengingDOMPage.blackBtn, 5);
 };
     @Test
 void testChallengingDomOrangeBtn(){
-        Assertions.assertEquals("Challenging DOM", challengingDOMPage.header.textContent().trim());
         verifyCanvasChangesAfterClick(challengingDOMPage.orangeBtn, 6);
 };
     @Test
 void testChallengingDomGreenBtn(){
-        Assertions.assertEquals("Challenging DOM", challengingDOMPage.header.textContent().trim());
         verifyCanvasChangesAfterClick(challengingDOMPage.greenBtn, 5);
 }
 }

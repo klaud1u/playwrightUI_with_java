@@ -1,6 +1,8 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,14 +10,24 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pages.InputsPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class InputsTest extends BaseTest {
     private InputsPage inputsPage;
 
     @BeforeEach
     void setupPage() {
         inputsPage = new InputsPage(page);
-        mainPage.inputsLink.click();
+        mainPage.navigateToInputs();
+    }
+
+    @Test
+    @Tag("smoke")
+    void pageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/inputs");
+        assertThat(inputsPage.header).hasText("Inputs");
+        assertThat(inputsPage.numberInput).isVisible();
+        assertThat(inputsPage.numberInput).isEditable();
+        assertThat(inputsPage.numberInput).hasValue("");
     }
 
     @Test

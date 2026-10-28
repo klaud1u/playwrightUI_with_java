@@ -3,64 +3,72 @@ package tests;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.DragAndDropPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+@Tag("regression")
 public class DragAndDropTest extends BaseTest{
     private DragAndDropPage dragAndDropPage;
 
     @BeforeEach
     void setupPage() {
         dragAndDropPage = new DragAndDropPage(page);
-        mainPage.dragAndDropLink.click();
+        mainPage.navigateToDragAndDrop();
     }
 
     @Test
-    public void NavigateToDragAndDropPage(){
-        Assertions.assertEquals("Drag and Drop",dragAndDropPage.header.textContent().trim());
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+    @Tag("smoke")
+    public void dragAndDropPageDisplaysExpectedContent(){
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/drag_and_drop");
+        assertThat(dragAndDropPage.header).hasText("Drag and Drop");
+        assertThat(dragAndDropPage.columnA).isVisible();
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).isVisible();
+        assertThat(dragAndDropPage.columnB).hasText("B");
     }
     @Test
     void draggingColumnAToColumnBChangesTheirPositions() {
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
         dragAndDropPage.columnA.dragTo(dragAndDropPage.columnB);
-        Assertions.assertEquals("B", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("A", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("B");
+        assertThat(dragAndDropPage.columnB).hasText("A");
     }
 
     @Test
     void draggingColumnBToColumnAChangesTheirPositions() {
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
         dragAndDropPage.columnB.dragTo(dragAndDropPage.columnA);
-        Assertions.assertEquals("B", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("A", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("B");
+        assertThat(dragAndDropPage.columnB).hasText("A");
     }
 
     @Test
     void draggingColumnsTwiceTest() {
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
         dragAndDropPage.columnA.dragTo(dragAndDropPage.columnB);
-        Assertions.assertEquals("B", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("A", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("B");
+        assertThat(dragAndDropPage.columnB).hasText("A");
         dragAndDropPage.columnA.dragTo(dragAndDropPage.columnB);
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
     }
 
     @Test
     void draggingColumnsOutsideDropTargetsDoesNotChangeTheirTexts() {
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
         dragAndDropPage.columnA.dragTo(dragAndDropPage.header);
         dragAndDropPage.columnB.dragTo(dragAndDropPage.header);
-        Assertions.assertEquals("A", dragAndDropPage.columnA.textContent().trim());
-        Assertions.assertEquals("B", dragAndDropPage.columnB.textContent().trim());
+        assertThat(dragAndDropPage.columnA).hasText("A");
+        assertThat(dragAndDropPage.columnB).hasText("B");
     }
 }
 

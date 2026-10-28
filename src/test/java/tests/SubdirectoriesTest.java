@@ -2,13 +2,14 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages.SubdirectoriesPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class SubdirectoriesTest extends BaseTest {
 
     private SubdirectoriesPage subdirectoriesPage;
@@ -16,10 +17,11 @@ public class SubdirectoriesTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         subdirectoriesPage = new SubdirectoriesPage(page);
-        mainPage.subdirectoriesLink.click();
+        mainPage.navigateToSubdirectories();
     }
 
     @Test
+    @Tag("smoke")
     void mainPageDisplaysExpectedContent() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/subdirectories");
         assertThat(subdirectoriesPage.header).hasText("Subdirectories");

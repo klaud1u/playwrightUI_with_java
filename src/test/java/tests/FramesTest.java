@@ -2,12 +2,13 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.FramesPage;
 import pages.NestedFramesPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class FramesTest extends BaseTest{
 
     private FramesPage framesPage;
@@ -17,10 +18,11 @@ public class FramesTest extends BaseTest{
     void setupPage() {
         framesPage = new FramesPage(page);
         nestedFramesPage = new NestedFramesPage(page);
-        mainPage.framesLink.click();
+        mainPage.navigateToFrames();
     }
     // Additional scenarios are covered in NestedFramesTest and EditorTest (WYSIWYG Editor).
     @Test
+    @Tag("smoke")
     void weAreOnFramesPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/frames");
         assertThat(framesPage.header).hasText("Frames");

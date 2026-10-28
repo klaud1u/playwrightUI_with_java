@@ -3,6 +3,7 @@ package tests;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pages.DynamicLoadingPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class DynamicLoadingTest extends BaseTest{
 
     private DynamicLoadingPage dynamicLoadingPage;
@@ -18,11 +19,12 @@ public class DynamicLoadingTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         dynamicLoadingPage = new DynamicLoadingPage(page);
-        mainPage.dynamicLoadingLink.click();
+        mainPage.navigateToDynamicLoading();
     }
 
     @Test
-    void weAreOnDynamicLoadingPage() {
+    @Tag("smoke")
+    void dynamicLoadingPageDisplaysExpectedContent() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/dynamic_loading");
         assertThat(dynamicLoadingPage.header).hasText("Dynamically Loaded Page Elements");
         assertThat(dynamicLoadingPage.exampleOneLink).isVisible();

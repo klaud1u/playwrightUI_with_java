@@ -1,14 +1,16 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.BrokenImagesPage;
 import pages.MainPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-
+@Tag("regression")
 public class BrokenImagesTest extends BaseTest {
 
     private BrokenImagesPage brokenImagesPage;
@@ -16,17 +18,16 @@ public class BrokenImagesTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         brokenImagesPage = new BrokenImagesPage(page);
-        mainPage.brokenImagesLink.click();
+        mainPage.navigateToBrokenImages();
     }
 
     @Test
-    void brokenImagesTest() {
-        Assertions.assertTrue(page.url().endsWith("/broken_images"));
+    @Tag("smoke")
+    void pageContainsTwoBrokenImages() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/broken_images");
         brokenImagesPage.waitForImagesToFinishLoading();
         assertThat(brokenImagesPage.images).hasCount(3);
-        int brokenCount = ((Number) brokenImagesPage.images.evaluateAll("images => images.filter(img => img.naturalWidth === 0).length")).intValue();
-        //System.out.println(brokenImagesPage.images.evaluateAll("images => images.map(img => `${img.src} | complete=${img.complete} | width=${img.naturalWidth}`)"));
-        Assertions.assertEquals(2, brokenCount);
+        Assertions.assertEquals(2, brokenImagesPage.brokenImagesCount());
     }
     @Test
     void intendedBrokenImagesAreBroken() {

@@ -2,11 +2,12 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.DynamicControlsPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class DynamicControlsTest extends BaseTest{
 
     private DynamicControlsPage dynamicControlsPage;
@@ -14,11 +15,12 @@ public class DynamicControlsTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         dynamicControlsPage = new DynamicControlsPage(page);
-        mainPage.dynamicControlLink.click();
+        mainPage.navigateToDynamicControls();
     }
 
     @Test
-    void weAreOnDynamicControlsPage() {
+    @Tag("smoke")
+    void dynamicControlPageDisplaysExpectedContent() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/dynamic_controls");
         assertThat(dynamicControlsPage.header).hasText("Dynamic Controls");
         assertThat(dynamicControlsPage.checkbox).isVisible();

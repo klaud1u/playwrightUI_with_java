@@ -2,8 +2,10 @@ package tests;
 
 import com.microsoft.playwright.FileChooser;
 import com.microsoft.playwright.Locator;
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.FileUploadPage;
 
@@ -12,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class FileUploadTest extends BaseTest{
 
     private FileUploadPage fileUploadPage;
@@ -20,7 +22,7 @@ public class FileUploadTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         fileUploadPage = new FileUploadPage(page);
-        mainPage.fileUploadLink.click();
+        mainPage.navigateToFileUpload();
     }
 
     private Path helloFile() throws Exception {
@@ -29,8 +31,12 @@ public class FileUploadTest extends BaseTest{
 
 
     @Test
-    void navigateToFileUpload() {
-        assertThat(fileUploadPage.header).isVisible();
+    @Tag("smoke")
+    void FileUploadPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/upload");
+        assertThat(fileUploadPage.header).hasText("File Uploader");
+        assertThat(fileUploadPage.chooseFileBtn).isEnabled();
+        assertThat(fileUploadPage.uploadBtn).isVisible();
     }
 
     @Test
