@@ -13,7 +13,7 @@ public final class TestConfig {
 
     public static final String BASE_URL = switch (ENV) {
         case "qa" -> "https://the-internet.herokuapp.com";
-        case "uat" -> "hhttps://the-internet.herokuapp.com";
+        case "uat" -> "https://the-internet.herokuapp.com";
         default -> throw new IllegalArgumentException(
                 "Unknown environment: " + ENV
                         + ". Supported environments: qa, uat"
