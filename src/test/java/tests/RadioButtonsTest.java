@@ -1,6 +1,8 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,17 +10,19 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pages.RadioButtonsPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class RadioButtonsTest extends BaseTest {
     private RadioButtonsPage radioButtonsPage;
     @BeforeEach
     public void setupPage() {
         radioButtonsPage = new RadioButtonsPage(page);
-        mainPage.radioButtonsLink.click();
+        mainPage.navigateToRadioButtons();
     }
 
     @Test
+    @Tag("smoke")
     void pageDisplaysDefaultSelections() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/radio_buttons");
         assertThat(radioButtonsPage.header).hasText("Radio Buttons");
         assertThat(radioButtonsPage.blue).isChecked();
         assertThat(radioButtonsPage.red).not().isChecked();

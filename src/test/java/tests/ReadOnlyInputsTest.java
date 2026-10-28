@@ -1,22 +1,26 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ReadOnlyInputsPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class ReadOnlyInputsTest extends BaseTest{
     private ReadOnlyInputsPage readOnlyInputsPage;
 
     @BeforeEach
     public void setupPage() {
         readOnlyInputsPage = new ReadOnlyInputsPage(page);
-        mainPage.readOnlyInputsLink.click();
+        mainPage.navigateToReadOnlyInputs();
     }
 
     @Test
+    @Tag("smoke")
     void pageDisplaysDefaultFieldStates() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/readonly");
         assertThat(readOnlyInputsPage.header).hasText("Read-only Inputs");
         assertThat(readOnlyInputsPage.readOnlyCheckbox).not().isChecked();
         assertThat(readOnlyInputsPage.textField).isEditable();

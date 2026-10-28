@@ -32,10 +32,11 @@ mvn clean test
 
 Maven downloads the dependencies, and Playwright Java downloads its browsers automatically on the first run.
 
-If Maven cannot delete `target`, stop running tests then try:
+If Maven cannot delete `target`, try or delete the folder manually:
 ```bash
 Remove-Item -LiteralPath ".\target" -Recurse -Force -ErrorAction Stop
 ````
+
 then
 ```bash
 mvn clean test
@@ -56,7 +57,14 @@ Run all tests with retries:
 ```bash
 mvn clean test "-Dsurefire.rerunFailingTestsCount=2"
 ```
-
+# Run Smoke
+```bash
+mvn clean test "-Dgroups=smoke"
+````
+# Run Regression
+```bash
+mvn clean test "-Dgroups=regression"
+````
 ## Open the Allure report
 
 After the tests finish:

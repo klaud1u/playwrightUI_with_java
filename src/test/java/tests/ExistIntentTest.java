@@ -3,11 +3,12 @@ package tests;
 import com.microsoft.playwright.Locator;
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ExitIntentPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class ExistIntentTest extends BaseTest{
 
     private ExitIntentPage exitIntentPage;
@@ -15,10 +16,11 @@ public class ExistIntentTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         exitIntentPage = new ExitIntentPage(page);
-        mainPage.exitIntentLink.click();
+        mainPage.navigateToExitIntent();
     }
 
     @Test
+    @Tag("smoke")
     void pageInitiallyDisplaysWithoutModal() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/exit_intent");
         assertThat(exitIntentPage.header).hasText("Exit Intent");

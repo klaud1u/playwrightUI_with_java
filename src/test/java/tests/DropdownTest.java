@@ -1,35 +1,45 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.DropdownPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+@Tag("regression")
 public class DropdownTest extends BaseTest {
     private DropdownPage dropdownPage;
 
     @BeforeEach
     void setupPage() {
         dropdownPage = new DropdownPage(page);
-        mainPage.dropdownLink.click();
+        mainPage.navigateToDropdown();
 
     }
 
+
+
     @Test
-    void dropdownShowsExpectedOptions() {
-        Assertions.assertEquals("Dropdown List", dropdownPage.header.textContent().trim());
-        Assertions.assertEquals(3, dropdownPage.dropdown.locator("option").count());
+    @Tag("smoke")
+    void dropdownPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/dropdown");
+        assertThat(dropdownPage.header).hasText("Dropdown List");
+        assertThat(dropdownPage.dropdown).isVisible();
+        assertThat(dropdownPage.dropdown).hasValue("");
+        assertThat(dropdownPage.dropdown.locator("option")).hasText(new String[]{"Please select an option", "Option 1", "Option 2"});
     }
 
     @Test
     void weCanSelectOption1() {
         dropdownPage.dropdown.selectOption("1");
-        Assertions.assertEquals("1", dropdownPage.dropdown.inputValue());
+        assertThat(dropdownPage.dropdown).hasValue("1");
     }
     @Test
     void weCanSelectOption2() {
         dropdownPage.dropdown.selectOption("2");
-        Assertions.assertEquals("2", dropdownPage.dropdown.inputValue());
+        assertThat(dropdownPage.dropdown).hasValue("2");
     }
 
 

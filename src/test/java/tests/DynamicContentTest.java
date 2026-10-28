@@ -1,20 +1,32 @@
 package tests;
 
 import com.microsoft.playwright.Locator;
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.DynamicContentPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class DynamicContentTest extends BaseTest {
     private DynamicContentPage dynamicContentPage;
 
     @BeforeEach
     void setupPage() {
         dynamicContentPage = new DynamicContentPage(page);
-        mainPage.dynamicContentLink.click();
+        mainPage.navigateToDynamicContent();
+    }
+
+    @Test
+    @Tag("smoke")
+    void dynamicContentPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/dynamic_content");
+        assertThat(dynamicContentPage.header).hasText("Dynamic Content");
+        assertThat(dynamicContentPage.avatars).hasCount(3);
+        assertThat(dynamicContentPage.avatarTexts).hasCount(3);
+
     }
 
     @Test

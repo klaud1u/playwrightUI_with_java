@@ -4,12 +4,13 @@ import com.microsoft.playwright.Locator;
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.EntryAdPage;
 
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class EntryAdTest extends BaseTest{
     private EntryAdPage entryAdPage;
 
@@ -17,10 +18,11 @@ public class EntryAdTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         entryAdPage = new EntryAdPage(page);
-        mainPage.entryAdLink.click();
+        mainPage.navigateToEntryAd();
     }
 
     @Test
+    @Tag("smoke")
     void enteringPageDisplaysAd() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/entry_ad");
         assertThat(entryAdPage.header).hasText("Entry Ad");

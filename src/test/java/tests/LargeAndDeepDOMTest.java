@@ -1,13 +1,15 @@
 package tests;
 
 
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LargeAndDeepDOMPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class LargeAndDeepDOMTest extends BaseTest{
 
     private LargeAndDeepDOMPage largeAndDeepDOMPage;
@@ -15,13 +17,16 @@ public class LargeAndDeepDOMTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         largeAndDeepDOMPage = new LargeAndDeepDOMPage(page);
-        mainPage.largeAndDeepDOMLink.click();
+        mainPage.navigateToLargeAndDeepDOM();
     }
 
     @Test
+    @Tag("smoke")
     void weCanNavigateToLargeAndDeepDOMPage() {
-        assertThat(largeAndDeepDOMPage.header).isVisible();
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/large");
         assertThat(largeAndDeepDOMPage.header).hasText("Large & Deep DOM");
+        assertThat(largeAndDeepDOMPage.tableHeading).hasText("Table");
+        assertThat(largeAndDeepDOMPage.table).isVisible();
     }
 
     @Test

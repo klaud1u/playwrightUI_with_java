@@ -1,7 +1,9 @@
 package tests;
 
 import com.microsoft.playwright.Locator;
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class SortableDataTablesTest extends BaseTest {
 
    private SortableDataTablesPage sortableDataTablesPage;
@@ -23,15 +25,18 @@ public class SortableDataTablesTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         sortableDataTablesPage = new SortableDataTablesPage(page);
-        mainPage.sortableDataTablesLink.click();
+        mainPage.navigateToSortableDataTables();
     }
 
     @Test
-    void pageDisplaysBothTables() {
+    @Tag("smoke")
+    void pageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/tables");
         assertThat(sortableDataTablesPage.header).hasText("Data Tables");
         assertThat(sortableDataTablesPage.table(1)).isVisible();
         assertThat(sortableDataTablesPage.table(2)).isVisible();
     }
+
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2})

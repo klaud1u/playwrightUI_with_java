@@ -1,11 +1,13 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ShadowDOMPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class ShadowDOMTest extends BaseTest{
 
 
@@ -14,11 +16,13 @@ public class ShadowDOMTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         shadowDOMPage = new ShadowDOMPage(page);
-        mainPage.shadowDOMLink.click();
+        mainPage.navigateToShadowDOM();
     }
 
     @Test
+    @Tag("smoke")
     void shadowDOMPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/shadowdom");
         assertThat(shadowDOMPage.header).hasText("Simple template");
         assertThat(shadowDOMPage.firstParagraph).isVisible();
         assertThat(shadowDOMPage.firstText).hasText("Let's have some different text!");

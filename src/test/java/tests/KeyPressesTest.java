@@ -1,13 +1,15 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages.KeyPressesPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class KeyPressesTest extends BaseTest{
 
     private KeyPressesPage keyPressesPage;
@@ -15,7 +17,18 @@ public class KeyPressesTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         keyPressesPage = new KeyPressesPage(page);
-        mainPage.keyPressesLink.click();
+        mainPage.navigateToKeyPresses();
+    }
+
+    @Test
+    @Tag("smoke")
+    void pageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/key_presses");
+        assertThat(keyPressesPage.header).hasText("Key Presses");
+        assertThat(keyPressesPage.input).isVisible();
+        assertThat(keyPressesPage.input).isEditable();
+        assertThat(keyPressesPage.input).hasValue("");
+        assertThat(keyPressesPage.result).isHidden();
     }
 
     @ParameterizedTest

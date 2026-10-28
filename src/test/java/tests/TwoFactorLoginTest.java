@@ -2,6 +2,7 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,7 +13,7 @@ import testdata.LoginTestData;
 import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class TwoFactorLoginTest extends BaseTest{
 
     private TwoFactorLoginPage twoFactorLoginPage;
@@ -20,10 +21,11 @@ public class TwoFactorLoginTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         twoFactorLoginPage = new TwoFactorLoginPage(page);
-        mainPage.twoFactorLoginLink.click();
+        mainPage.navigateToTwoFactorLogin();
     }
 
     @Test
+    @Tag("smoke")
     void loginPageDisplaysExpectedFields() {
         assertThat(twoFactorLoginPage.header).hasText("Two-Factor Login");
         assertThat(page).hasURL(TestConfig.BASE_URL + "/two_factor");

@@ -1,22 +1,24 @@
 package tests;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.HoversPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class HoversTest extends BaseTest{
     private HoversPage hoversPage;
 
     @BeforeEach
     void setupPage() {
         hoversPage = new HoversPage(page);
-        mainPage.hoversLink.click();
+        mainPage.navigateToHovers();
     }
 
 
     @Test
+    @Tag("smoke")
     void hoverOverUser1ShowsItsProfile() {
         assertThat(hoversPage.userName(0)).isHidden();
         assertThat(hoversPage.userProfileLink(0)).isHidden();

@@ -1,11 +1,13 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.FloatingMenuPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class FloatingMenuTest extends BaseTest{
 
     private FloatingMenuPage floatingMenuPage;
@@ -13,7 +15,19 @@ public class FloatingMenuTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         floatingMenuPage = new FloatingMenuPage(page);
-        mainPage.floatingMenuLink.click();
+        mainPage.navigateToFloatingMenu();
+    }
+
+    @Test
+    @Tag("smoke")
+    void floatingMenuPageDisplaysExpectedContent() {
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/floating_menu");
+        assertThat(floatingMenuPage.header).hasText("Floating Menu");
+        assertThat(floatingMenuPage.floatingMenu).isVisible();
+        assertThat(floatingMenuPage.homeLink).hasText("Home");
+        assertThat(floatingMenuPage.newsLink).hasText("News");
+        assertThat(floatingMenuPage.contactLink).hasText("Contact");
+        assertThat(floatingMenuPage.aboutLink).hasText("About");
     }
 
     @Test

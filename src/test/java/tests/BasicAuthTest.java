@@ -1,11 +1,15 @@
 package tests;
 
+import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.BasicAuthPage;
 import pages.MainPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+@Tag("regression")
 public class BasicAuthTest extends BaseTest {
 
     private BasicAuthPage basicAuthPage;
@@ -13,13 +17,14 @@ public class BasicAuthTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         basicAuthPage = new BasicAuthPage(page);
-        mainPage.basicAuthLink.click();
+        mainPage.navigateToBasicAuth();
     }
 
     @Test
+    @Tag("smoke")
     void loginBasicAuthTest()
     {
-        Assertions.assertEquals("Basic Auth", basicAuthPage.basicAuthHeader.textContent().trim());
-
+        assertThat(page).hasURL(TestConfig.BASE_URL + "/basic_auth");
+        assertThat(basicAuthPage.header).hasText("Basic Auth");
     }
 }

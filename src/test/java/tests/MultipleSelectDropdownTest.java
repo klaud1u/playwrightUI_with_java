@@ -2,13 +2,14 @@ package tests;
 
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import pages.MultipleSelectDropdownPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class MultipleSelectDropdownTest extends BaseTest {
 
 
@@ -17,10 +18,11 @@ public class MultipleSelectDropdownTest extends BaseTest {
     @BeforeEach
     void setupPage() {
         multipleSelectDropdownPage = new MultipleSelectDropdownPage(page);
-        mainPage.multipleSelectDropdownLink.click();
+        mainPage.navigateToMultipleSelectDropdown();
     }
 
     @Test
+    @Tag("smoke")
     void dropdownDisplaysAllOptionsWithoutInitialSelection() {
         assertThat(multipleSelectDropdownPage.header).hasText("Multiple Select Dropdown List");
         assertThat(multipleSelectDropdownPage.optionsList).isVisible();

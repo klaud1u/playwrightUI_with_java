@@ -2,12 +2,13 @@ package tests;
 
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.RedirectLinkPage;
 import pages.StatusCodesPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class RedirectLinkTest extends BaseTest{
 
     private RedirectLinkPage redirectLinkPage;
@@ -17,10 +18,11 @@ public class RedirectLinkTest extends BaseTest{
     void setupPage() {
         redirectLinkPage = new RedirectLinkPage(page);
         statusCodesPage = new StatusCodesPage(page);
-        mainPage.redirectLink.click();
+        mainPage.navigateToRedirection();
     }
 
     @Test
+    @Tag("smoke")
     void weAreOnRedirectionPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/redirector");
         assertThat(redirectLinkPage.header).hasText("Redirection");

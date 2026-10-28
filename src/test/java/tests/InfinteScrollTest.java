@@ -4,6 +4,7 @@ import com.microsoft.playwright.assertions.LocatorAssertions;
 import config.TestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -12,7 +13,7 @@ import pages.InfiniteScrollPage;
 import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class InfinteScrollTest extends BaseTest{
 
     private InfiniteScrollPage infiniteScrollPage;
@@ -20,10 +21,11 @@ public class InfinteScrollTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         infiniteScrollPage = new InfiniteScrollPage(page);
-        mainPage.infiniteScrollLink.click();
+        mainPage.navigateToInfiniteScroll();
     }
 
     @Test
+    @Tag("smoke")
     void weAreOnInfiniteScrollPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/infinite_scroll");
         assertThat(infiniteScrollPage.header).hasText("Infinite Scroll");

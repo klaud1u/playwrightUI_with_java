@@ -3,11 +3,12 @@ package tests;
 import com.microsoft.playwright.Download;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.JqueryUIMenusPage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class JqueryUIMenusTest extends BaseTest{
 
     private JqueryUIMenusPage jQueryUIMenusPage;
@@ -15,10 +16,11 @@ public class JqueryUIMenusTest extends BaseTest{
     @BeforeEach
     void setupPage() {
         jQueryUIMenusPage = new JqueryUIMenusPage(page);
-        mainPage.jqueryUiMenusLink.click();
+        mainPage.navigateToJqueryUIMenus();
     }
 
     @Test
+    @Tag("smoke")
     void disabledItemDoesNotOpenSubmenu() {
        assertThat(jQueryUIMenusPage.header).isVisible();
        assertThat(jQueryUIMenusPage.disabledItem).hasAttribute("aria-disabled", "true");

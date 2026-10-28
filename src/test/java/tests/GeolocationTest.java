@@ -3,6 +3,7 @@ package tests;
 import com.microsoft.playwright.options.Geolocation;
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -11,7 +12,7 @@ import pages.GeolocationPage;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+@Tag("regression")
 public class GeolocationTest extends BaseTest{
 
     private GeolocationPage geolocationPage;
@@ -20,10 +21,11 @@ public class GeolocationTest extends BaseTest{
     void setupPage() {
         geolocationPage = new GeolocationPage(page);
         context.grantPermissions(List.of("geolocation"));
-        mainPage.geolocationLink.click();
+        mainPage.navigateToGeolocation();
     }
 
     @Test
+    @Tag("smoke")
     void weAreOnGeolocationPage() {
         assertThat(page).hasURL(TestConfig.BASE_URL + "/geolocation");
         assertThat(geolocationPage.header).hasText("Geolocation");

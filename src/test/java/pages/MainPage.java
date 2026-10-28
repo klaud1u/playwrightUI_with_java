@@ -59,5 +59,199 @@ public class MainPage extends BasePage {
     public Locator redirectLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("Redirect Link").setExact(true));
     public Locator javaScriptOnloadEventErrorLink = page.getByRole(AriaRole.LINK,new Page.GetByRoleOptions().setName("JavaScript onload event error").setExact(true));
 
+    public void navigateToABTesting() {
+        AbTestingLink.click();
+    }
+
+    public void navigateToAddRemoveElements() {
+        addRemoveElements.click();
+    }
+
+    public void navigateToBasicAuth() {
+        basicAuthLink.click();
+    }
+
+    public void navigateToBrokenImages() {
+        brokenImagesLink.click();
+    }
+    public void navigateToCanvas() {
+        canvasLink.click();
+    }
+
+    public void navigateToChallengingDOM() {
+        challengingDOMLink.click();
+    }
+
+    public void navigateToCheckboxes() {
+        checkboxLink.click();
+    }
+
+    public void navigateToContextMenu() {
+        contextMenuLink.click();
+    }
+
+    public void navigateToDigestAuthentication() {
+        digestAuthenticationLink.click();
+    }
+
+    public void navigateToDisappearingElements() {
+        disappearingElementsLink.click();
+    }
+
+    public void navigateToDragAndDrop() {
+        dragAndDropLink.click();
+    }
+
+    public void navigateToDropdown() {
+        dropdownLink.click();
+    }
+
+    public void navigateToDynamicContent() {
+        dynamicContentLink.click();
+    }
+
+    public void navigateToDynamicControls() {
+        dynamicControlLink.click();
+    }
+
+    public void navigateToDynamicLoading() {
+        dynamicLoadingLink.click();
+    }
+
+    public void navigateToEditor() {
+        editorPageLink.click();
+    }
+
+    public void navigateToEntryAd() {
+        entryAdLink.click();
+    }
+
+    public void navigateToExitIntent() {
+        exitIntentLink.click();
+    }
+
+    public void navigateToFileDownload() {
+        fileDownloadLink.click();
+    }
+
+    public void navigateToFileUpload() {
+        fileUploadLink.click();
+    }
+
+    public void navigateToFloatingMenu() {
+        floatingMenuLink.click();
+    }
+
+    public void navigateToForgotPassword() {
+        forgotPasswordLink.click();
+    }
+
+    public void navigateToFormAuthentication() {
+        formAuthenticationLink.click();
+    }
+
+    public void navigateToFrames() {
+        framesLink.click();
+    }
+
+    public void navigateToGeolocation() {
+        geolocationLink.click();
+    }
+
+    public void navigateToHorizontalSlider() {
+        horizontalSliderLink.click();
+    }
+
+    public void navigateToHovers() {
+        hoversLink.click();
+    }
+
+    public void navigateToInfiniteScroll() {
+        infiniteScrollLink.click();
+    }
+
+    public void navigateToInputs() {
+        inputsLink.click();
+    }
+
+    public void navigateToJavaScriptAlerts() {
+        javaScriptAlertsLink.click();
+    }
+
+    public void navigateToJavaScriptOnloadEventError() {
+        javaScriptOnloadEventErrorLink.click();
+    }
+
+    public void navigateToJqueryUIMenus() {
+        jqueryUiMenusLink.click();
+    }
+
+    public void navigateToKeyPresses() {
+        keyPressesLink.click();
+    }
+
+    public void navigateToLargeAndDeepDOM() {
+        largeAndDeepDOMLink.click();
+    }
+
+    public void navigateToLargeForm() {
+        largeFormLink.click();
+    }
+
+    public void navigateToMultipleSelectDropdown() {
+        multipleSelectDropdownLink.click();
+    }
+
+    public void navigateToMultipleWindows() {
+        multipleWindowsLink.click();
+    }
+
+    public void navigateToNestedFrames() {
+        nestedFramesLink.click();
+    }
+
+    public void navigateToRadioButtons() {
+        radioButtonsLink.click();
+    }
+
+    public void navigateToReadOnlyInputs() {
+        readOnlyInputsLink.click();
+    }
+
+    public void navigateToRedirection() {
+        redirectLink.click();
+    }
+
+    public void navigateToSecureFileDownload() {
+        secureFileDownloadLink.click();
+    }
+
+    public void navigateToShadowDOM() {
+        shadowDOMLink.click();
+    }
+
+    public void navigateToShiftingContent() {
+        shiftingContentLink.click();
+    }
+
+    public void navigateToSortableDataTables() {
+        sortableDataTablesLink.click();
+    }
+
+    public void navigateToStatusCodes() {
+        statusCodesLink.click();
+    }
+
+    public void navigateToSubdirectories() {
+        subdirectoriesLink.click();
+    }
+
+    public void navigateToTwoFactorLogin() {
+        twoFactorLoginLink.click();
+    }
+
+    public void navigateToTypos() {
+        typosLink.click();
+    }
 
 }
